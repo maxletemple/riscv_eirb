@@ -194,8 +194,7 @@ void translator::binToInt(string in_filename, string out_filename){
     string line;
     while(getline(in, line)){
         for (int k = 0; k < 4; k++){
-            out << stoi(line.substr(4*k, 4), 0, 2) << endl;
-            cout << stoi(line.substr(4*k, 4), 0, 2) << endl;
+            out << stoi(line.substr(8*k, 8), 0, 2) << endl;
         }
     }
     in.close();
