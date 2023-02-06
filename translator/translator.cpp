@@ -200,4 +200,3 @@ void translator::binToInt(string in_filename, string out_filename){
     in.close();
     out.close();
 }
-

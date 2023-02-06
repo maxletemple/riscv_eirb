@@ -1,0 +1,5 @@
+addi x5,x0,20
+xori x6,x5,33
+slli x7,x5,2
+srli x28,x5,2
+srai x29,x5,-2

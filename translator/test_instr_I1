@@ -1,0 +1,7 @@
+addi x5,x0,20
+slti x6,x5,21
+slti x7,x5,19
+sltiu x28,x5,21
+sltiu x29,x5,19
+andi x30,x5,33
+ori x31,x5,33
