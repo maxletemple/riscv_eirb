@@ -20,6 +20,7 @@ private:
 
 public:
     void instructionToBin(string in_filename, string out_filename);
+    void binToInt(string in_filename, string out_filename);
 };
 
 #endif //PROJECT_TRANSLATOR_H

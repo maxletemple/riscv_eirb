@@ -28,6 +28,7 @@ int main(int argc, char *argv[]) {
     string inst_file_name = std::string(argv[2]);
 
     translator *instance = new translator();
-    instance -> instructionToBin(assem_file_name, inst_file_name);
+    instance -> instructionToBin(assem_file_name, "temp.txt");
+    instance ->binToInt("temp.txt", inst_file_name);
     return 0;
 }
