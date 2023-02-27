@@ -73,7 +73,7 @@ component FSM is
            
            Ena_Mem_Inst         : out STD_LOGIC;
            Ena_Mem_Data         : out STD_LOGIC;
-           RW_Mem_Data          : out STD_LOGIC_VECTOR (1 downto 0); --3
+           RW_Mem_Data          : out STD_LOGIC_VECTOR (3 downto 0); --3
            
            sel_func_ALU         : out STD_LOGIC_VECTOR (3 downto 0);
            reg_file_write       : out STD_LOGIC;
@@ -159,7 +159,7 @@ inst_FSM : FSM
           
                Ena_Mem_Inst => Ena_Mem_Inst,
                Ena_Mem_Data => Ena_Mem_Data,  
-               RW_Mem_Data  => open, -- RW_Mem_Data,
+               RW_Mem_Data  => RW_Mem_Data,
            
                sel_func_ALU         => sel_func_ALU ,
                reg_file_write       => reg_file_write, 

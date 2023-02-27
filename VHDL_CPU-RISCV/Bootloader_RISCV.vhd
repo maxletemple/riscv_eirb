@@ -30,6 +30,7 @@ component CPU_RISCV is
     Port ( Clk               : in STD_LOGIC;
            Reset             : in STD_LOGIC;
            CE                : in STD_LOGIC;
+           boot              : in STD_LOGIC;
            Inst_Boot         : in STD_LOGIC;
            Data_Boot         : in STD_LOGIC;
            Inst_RW_Boot      : in STD_LOGIC;
@@ -112,6 +113,7 @@ CPU_Instance : CPU_RISCV
     port map( Clk               => Clk,
               Reset             => Reset,
               CE                => CE,
+              boot              => sig_Boot,
               Inst_Boot         => sig_Inst_Boot, 
               Data_Boot         => sig_Data_Boot, 
               Inst_RW_Boot      => sig_RW_Boot,

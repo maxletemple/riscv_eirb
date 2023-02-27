@@ -38,6 +38,7 @@ entity CPU_RISCV is
     Port ( Clk               : in STD_LOGIC;
            Reset             : in STD_LOGIC;
            CE                : in STD_LOGIC;
+           boot              : in STD_LOGIC;
            Inst_Boot         : in STD_LOGIC;
            Data_Boot         : in STD_LOGIC;
            Inst_RW_Boot      : in STD_LOGIC;
@@ -205,7 +206,7 @@ Inst_Control_Unit : Control_Unit
               Clk               => Clk,
               Reset             => Reset,
               CE                => CE,
-              boot              => Inst_Boot,
+              boot              => boot,
               Val_Inst          => sig_Val_Out_Inst,
               Jalr_Adr          => sig_Jalr_Adr,
               Jr_Adr            => sig_Jr_Adr,
@@ -214,7 +215,7 @@ Inst_Control_Unit : Control_Unit
               New_Adr_Inst      => sig_New_Adr_Inst,
               Ena_Mem_Inst      => sig_Ena_Mem_Inst,
               Ena_Mem_Data      => sig_Ena_Mem_Data,
-              RW_Mem_Data       => open, --sig_RW_Mem_Data,
+              RW_Mem_Data       => sig_RW_Mem_Data,
               
               sel_func_ALU         => sig_sel_func_ALU,
               reg_file_write       => sig_reg_file_write,

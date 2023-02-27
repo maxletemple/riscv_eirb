@@ -43,7 +43,7 @@ entity FSM is
            
            Ena_Mem_Inst         : out STD_LOGIC;
            Ena_Mem_Data         : out STD_LOGIC;
-           RW_Mem_Data          : out STD_LOGIC_VECTOR (1 downto 0);
+           RW_Mem_Data          : out STD_LOGIC_VECTOR (3 downto 0);
            
            sel_func_ALU         : out STD_LOGIC_VECTOR (3 downto 0);
            reg_file_write       : out STD_LOGIC;
@@ -85,7 +85,7 @@ signal current_state, next_state : state_type;
 signal opcode : std_logic_vector(6 downto 0);
 signal funct3 : std_logic_vector(2 downto 0);
 signal funct7 : std_logic_vector(6 downto 0);
-signal s_mem_rw_depth : std_logic_vector(1 downto 0);
+signal s_mem_rw_depth : std_logic_vector(3 downto 0);
 
 signal addr : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
 
@@ -109,11 +109,13 @@ decode0 : decoblock
 funct3 <= Val_Inst(14 downto 12);
 funct7 <= Val_Inst(31 downto 25);
 
-process (clk,Reset,CE)
+process (clk,Reset,CE, boot)
 begin
-    if reset = '1' or boot = '1' then
+    if reset = '1' then
 	   current_state <= init;
 	elsif CE = '0' then
+	   current_state <= init;
+	elsif boot = '1' then
 	    current_state <= init;
     elsif rising_edge(clk) then
         current_state <= next_state;
@@ -124,11 +126,7 @@ process(current_state,opcode)
 begin
     case current_state is    
         when Init => 
-            if boot = '1' then
-                next_state <= Init;
-            else
-                next_state <= FetchIns;       
-            end if;
+            next_state <= FetchIns;       
             
         when FetchIns => next_state <= Decode;
         
@@ -167,7 +165,7 @@ begin
     case current_state is
         when Init =>  Ena_Mem_Inst <= '0';
                       Ena_Mem_Data <= '0';
-                      RW_Mem_Data <= "00";
+                      RW_Mem_Data <= "0000";
                       reg_file_write <= '0';
                       init_counter <= '0';
                       load_plus4 <='0';
@@ -175,7 +173,7 @@ begin
                       
         when FetchIns => Ena_Mem_Inst <= '1';
                          Ena_Mem_Data <= '0';
-                         RW_Mem_Data <= "00";
+                         RW_Mem_Data <= "0000";
                          reg_file_write <= '0';
                          init_counter <= '0';
                          load_plus4 <='0';
@@ -183,7 +181,7 @@ begin
                          
         when Decode => Ena_Mem_Inst <= '0';
                        Ena_Mem_Data <= '0';
-                       RW_Mem_Data <= "00";
+                       RW_Mem_Data <= "0000";
                        reg_file_write <= '0';
                        init_counter <= '0'; 
                        load_plus4 <='0'; 
@@ -191,7 +189,7 @@ begin
     
         when ExeOP => Ena_Mem_Inst <= '0';
                       Ena_Mem_Data <= '0';
-                      RW_Mem_Data <= "00";
+                      RW_Mem_Data <= "0000";
                       reg_file_write <= '1';
                       init_counter <= '1';
                       load_plus4 <= '1';
@@ -199,7 +197,7 @@ begin
                       
        when ExeOPimm => Ena_Mem_Inst <= '0';
                         Ena_Mem_Data <= '0';
-                        RW_Mem_Data <= "00";
+                        RW_Mem_Data <= "0000";
                         reg_file_write <= '1';
                         init_counter <= '1';
                         load_plus4 <= '1';
@@ -231,7 +229,7 @@ begin
        
        when ExeCtr => Ena_Mem_Inst <= '0';
                       Ena_Mem_Data <= '0';
-                      RW_Mem_Data <= "00";
+                      RW_Mem_Data <= "0000";
                       reg_file_write <= '0';
                       init_counter <= '1';
                       load_plus4 <='1';  
@@ -239,7 +237,7 @@ begin
                      
        when ExeJal => Ena_Mem_Inst <= '0';
                       Ena_Mem_Data <= '0';
-                      RW_Mem_Data <= "00";
+                      RW_Mem_Data <= "0000";
                       reg_file_write <= '1';
                       init_counter <= '1';
                       load_plus4 <='1';
@@ -247,7 +245,7 @@ begin
                       
       when ExeJal2 => Ena_Mem_Inst <= '0';
                       Ena_Mem_Data <= '0';
-                      RW_Mem_Data <= "00";
+                      RW_Mem_Data <= "0000";
                       reg_file_write <= '0';
                       init_counter <= '1';
                       load_plus4 <='0';
@@ -255,7 +253,7 @@ begin
       
       when ExeJalr => Ena_Mem_Inst <= '0';
                       Ena_Mem_Data <= '0';                      
-                      RW_Mem_Data <= "00";
+                      RW_Mem_Data <= "0000";
                       reg_file_write <= '1';             
                       init_counter <= '1';                     
                       load_plus4 <='1'; 
@@ -263,7 +261,7 @@ begin
        
        when ExeLui => Ena_Mem_Inst <= '0';
                       Ena_Mem_Data <= '0';
-                      RW_Mem_Data <= "00";
+                      RW_Mem_Data <= "0000";
                       reg_file_write <= '1';
                       init_counter <= '1'; 
                       load_plus4 <='1';
@@ -271,7 +269,7 @@ begin
                       
       when ExeAuipc => Ena_Mem_Inst <= '0';
                         Ena_Mem_Data <= '0';   
-                        RW_Mem_Data <= "00";   
+                        RW_Mem_Data <= "0000";   
                         reg_file_write <= '1';
                         init_counter <= '0';                    
                         load_plus4 <='1'; 
@@ -279,7 +277,7 @@ begin
                                             
        when ExeNop => Ena_Mem_Inst <= '0';
                       Ena_Mem_Data <= '0';
-                      RW_Mem_Data <= "00";
+                      RW_Mem_Data <= "0000";
                       reg_file_write <= '0';
                       init_counter <= '1';   
                       load_plus4 <='1';  

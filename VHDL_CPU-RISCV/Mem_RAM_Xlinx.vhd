@@ -47,13 +47,13 @@ generic (
 port (
 
         addra : in std_logic_vector((clogb2(RAM_DEPTH)-1) downto 0);     -- Address bus, width determined from RAM_DEPTH
-        dina  : in std_logic_vector(NB_COL*COL_WIDTH-1 downto 0);          -- RAM input data
-        clka  : in std_logic;                                     -- Clock
-        wea   : in std_logic_vector(NB_COL-1 downto 0);        -- Byte-write enable
-        ena   : in std_logic;                                     -- RAM Enable, for additional power savings, disable port when not in use
-        --rsta  : in std_logic;                                     -- Output reset (does not affect memory contents)
-        --regcea: in std_logic;                                     -- Output register enable
-        douta : out std_logic_vector(NB_COL*COL_WIDTH-1 downto 0)                 -- RAM output data
+        dina  : in std_logic_vector(NB_COL*COL_WIDTH-1 downto 0);		  -- RAM input data
+        clka  : in std_logic;                       			  -- Clock
+        wea   : in std_logic_vector(NB_COL-1 downto 0);    	-- Byte-write enable
+        ena   : in std_logic;                       			  -- RAM Enable, for additional power savings, disable port when not in use
+        --rsta  : in std_logic;                       			  -- Output reset (does not affect memory contents)
+        --regcea: in std_logic;                       			  -- Output register enable
+        douta : out std_logic_vector(NB_COL*COL_WIDTH-1 downto 0)   			  -- RAM output data
     );
 
 end RAM_Unit_Xilinx;
@@ -76,9 +76,9 @@ signal ram_data : std_logic_vector(C_NB_COL*C_COL_WIDTH-1 downto 0) ;
 -- The folowing code either initializes the memory values to a specified file or to all zeros to match hardware
 
 --function initramfromfile (ramfilename : in string) return ram_type is
---file ramfile    : text is in ramfilename;
+--file ramfile	: text is in ramfilename;
 --variable ramfileline : line;
---variable ram_name    : ram_type;
+--variable ram_name	: ram_type;
 --variable bitvec : bit_vector(C_NB_COL*C_COL_WIDTH-1 downto 0);
 --begin
 --    for i in ram_type'range loop
@@ -110,6 +110,7 @@ begin
         if(ena = '1') then
             for i in 0 to C_NB_COL-1 loop
                 if wea(i) = '1' then
+                    -- ram_name(to_integer(unsigned(addra)))((i+1)*C_COL_WIDTH-1 downto i*C_COL_WIDTH) <= dina((C_NB_COL-i)*C_COL_WIDTH-1 downto (C_NB_COL-i-1)*C_COL_WIDTH);
                     ram_name(to_integer(unsigned(addra)))((i+1)*C_COL_WIDTH-1 downto i*C_COL_WIDTH) <= dina((i+1)*C_COL_WIDTH-1 downto i*C_COL_WIDTH);
                 end if;
             end loop;
@@ -192,5 +193,5 @@ end rtl;
 -- douta  => douta
 --);
 
-                            
-                        
+							
+						

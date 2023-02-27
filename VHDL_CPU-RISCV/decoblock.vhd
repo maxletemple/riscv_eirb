@@ -15,7 +15,7 @@ entity decoblock is
          sel_func_ALU_connect : out STD_LOGIC_VECTOR (2 downto 0);
          sel_PC_Mux           : out STD_LOGIC_VECTOR (1 downto 0);
          Val_connect          : in STD_LOGIC;
-         mem_rw_depth : out STD_LOGIC_vector(1 downto 0));
+         mem_rw_depth : out STD_LOGIC_vector(3 downto 0));
 end decoblock;
 
 architecture Behavioral of decoblock is
@@ -32,7 +32,7 @@ begin
                                             sel_result <= "00";
                                             sel_PC_Mux <= "00"; -- 01 pour les branchements et jal, 10 pour mettre a 0 le pc, 11 pour jalr, 00 sinon
                                             sel_func_ALU_connect <= "000";
-                                            mem_rw_depth <= "00";
+                                            mem_rw_depth <= "0000";
                                             
                                             -- calcul du signal pour chaque instruction
                                             case funct3 is
@@ -65,7 +65,7 @@ begin
                                             sel_result <= "00";
                                             sel_PC_Mux <= "00"; -- 01 pour les branchements, 10 pour jal, 00 sinon
                                             sel_func_ALU_connect <= "000";
-                                            mem_rw_depth <= "00";
+                                            mem_rw_depth <= "0000";
             
                                             -- signal a modifier pour chaque instruction
                                             case funct3 is
@@ -101,28 +101,28 @@ begin
                                             sel_PC_Mux <= "00"; -- 01 pour les branchements, 10 pour jal, 00 sinon
                                             sel_func_ALU_connect <= "000";
                                             sel_func_ALU <= "0001";
-                                            mem_rw_depth <= "00";
+                                            mem_rw_depth <= "0000";
                                             
                                             -- signal a modifier pour chaque instruction
---                                            case funct3 is
---                                                 when "000" => -- lb
---                                                    sel_func_ALU <= "0001";
---                                                    mem_rw_depth <= "0001";
---                                                 when "001" => -- lh
---                                                    sel_func_ALU <= "0001";
---                                                    mem_rw_depth <= "0011";
---                                                 when "010" => -- lw
---                                                    sel_func_ALU <= "0001";
---                                                    mem_rw_depth <= "1111"; 
---                                                 when "100" => -- lbu
---                                                    sel_func_ALU <= "0001";
---                                                    mem_rw_depth <= "0001";
---                                                 when "101" => -- lhu
---                                                    sel_func_ALU <= "0001";
---                                                    mem_rw_depth <= "0011";  
---                                                 when others => sel_func_ALU <= "0000";
---                                                                mem_rw_depth <= "0000";                            
---                                            end case; 
+                                            case funct3 is
+                                                 when "000" => -- lb
+                                                    sel_func_ALU <= "0001";
+                                                    mem_rw_depth <= "0001";
+                                                 when "001" => -- lh
+                                                    sel_func_ALU <= "0001";
+                                                    mem_rw_depth <= "0011";
+                                                 when "010" => -- lw
+                                                    sel_func_ALU <= "0001";
+                                                    mem_rw_depth <= "1111"; 
+                                                 when "100" => -- lbu
+                                                    sel_func_ALU <= "0001";
+                                                    mem_rw_depth <= "0001";
+                                                 when "101" => -- lhu
+                                                    sel_func_ALU <= "0001";
+                                                    mem_rw_depth <= "0011";  
+                                                 when others => sel_func_ALU <= "0000";
+                                                                mem_rw_depth <= "0000";                            
+                                            end case; 
     when "0100011" => -- Op Write
                                             -- signaux communs a chaque instruction write
                                             imm_type <= "010"; -- Type S
@@ -136,15 +136,15 @@ begin
                                             case funct3 is
                                                 when "000" => -- sb
                                                     sel_func_ALU <= "0001";
-                                                    mem_rw_depth <= "01";
+                                                    mem_rw_depth <= "0001"; --01
                                                 when "001" => -- sh
                                                     sel_func_ALU <= "0001";
-                                                    mem_rw_depth <= "10";
+                                                    mem_rw_depth <= "0010"; --10
                                                 when "010" => -- sw
                                                     sel_func_ALU <= "0001";
-                                                    mem_rw_depth <= "11";  
+                                                    mem_rw_depth <= "1111"; -- 11 
                                                 when others => sel_func_ALU <= "0000";
-                                                                mem_rw_depth <= "00";                                               
+                                                                mem_rw_depth <= "0001";                                               
                                             end case;
     when "1100011" => -- Op control
                                             -- signaux communs a chaque instruction control
@@ -152,7 +152,7 @@ begin
                                             sel_op2 <= '0';
                                             sel_result <= "10"; -- 00 pour l'ALU, 01 pour m�moire et 10 pour PC                                                              
                                             sel_func_ALU <= "0000";
-                                            mem_rw_depth <= "00";
+                                            mem_rw_depth <= "0000";
                     
                                             -- signal a modifier pour chaque instruction
                                             case funct3 is
@@ -184,7 +184,7 @@ begin
                                             sel_PC_Mux <= "01"; -- 01 pour les branchementset jal, 10 pour mettre le pc a 0, 11 pour jalr, 00 sinon
                                             sel_func_ALU_connect <= "000";
                                             sel_func_ALU <= "0000";
-                                            mem_rw_depth <= "00";
+                                            mem_rw_depth <= "0000";
                                                
     when "1100111" => -- Op Jalr
                                             imm_type <= "001"; -- Type I            
@@ -193,7 +193,7 @@ begin
                                             sel_PC_Mux <= "11"; -- 01 pour les branchements et jal, 10 pour mettre a 0 le pc, 11 pour jalr, 00 sinon
                                             sel_func_ALU_connect <= "000";
                                             sel_func_ALU <= "1100";
-                                            mem_rw_depth <= "00";
+                                            mem_rw_depth <= "0000";
                                             
     when "0110111" => -- Op Lui
                                             imm_type <= "100"; -- Type U         
@@ -202,7 +202,7 @@ begin
                                             sel_PC_Mux <= "00"; -- 01 pour les branchements et jal, 10 pour mettre � 0 le pc, 11 pour jalr, 00 sinon
                                             sel_func_ALU_connect <= "000";
                                             sel_func_ALU <= "1011";
-                                            mem_rw_depth <= "00";
+                                            mem_rw_depth <= "0000";
                                             
     when "0010111" => -- Op Auipc ???
                                             imm_type <= "100"; -- Type U                                                      
@@ -211,7 +211,7 @@ begin
                                             sel_PC_Mux <= "00"; -- 01 pour les branchements et jal, 10 pour mettre � 0 le pc, 11 pour jalr, 00 sinon
                                             sel_func_ALU_connect <= "000";
                                             sel_func_ALU <= "1011";
-                                            mem_rw_depth <= "00";                                                                                                                       
+                                            mem_rw_depth <= "0000";                                                                                                                       
     when others =>
                                             imm_type <= "000";
                                             sel_op2 <= '0';
@@ -219,7 +219,7 @@ begin
                                             sel_PC_Mux <= "00";
                                             sel_func_ALU_connect <= "000";
                                             sel_func_ALU <= "0000";
-                                            mem_rw_depth <= "00";
+                                            mem_rw_depth <= "0000";
     end case;    
 end process;
 

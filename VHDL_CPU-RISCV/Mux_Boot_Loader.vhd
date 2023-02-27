@@ -103,6 +103,15 @@ begin
     if (Boot='1') then 
        if (RW_Boot ='1') then 
         case (Adr_Boot(1 downto 0)) is
+--           when "11"   => sig_RW_Boot<="1000";
+--                          sig_Val_In_boot <= Val_In_boot&octet_null&octet_null&octet_null;
+--           when "10"   => sig_RW_Boot<="0100";
+--                          sig_Val_In_boot <= octet_null&Val_In_boot&octet_null&octet_null;
+--           when "01"   => sig_RW_Boot<="0010";
+--                          sig_Val_In_boot <= octet_null&octet_null&Val_In_boot&octet_null;
+--           when others => sig_RW_Boot<="0001";
+--                          sig_Val_In_boot <= octet_null&octet_null&octet_null&Val_In_boot;
+
            when "11"   => sig_RW_Boot<="1000";
                           sig_Val_In_boot <= Val_In_boot&octet_null&octet_null&octet_null;
            when "10"   => sig_RW_Boot<="0100";
@@ -111,6 +120,8 @@ begin
                           sig_Val_In_boot <= octet_null&octet_null&Val_In_boot&octet_null;
            when others => sig_RW_Boot<="0001";
                           sig_Val_In_boot <= octet_null&octet_null&octet_null&Val_In_boot;
+
+            
         end case;
          sig_Adr_Boot   <= Adr_Boot((Bit_Nber-1) downto 2)&"00";
       else

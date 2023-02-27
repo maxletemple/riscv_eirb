@@ -54,6 +54,10 @@ Read_Ins : Process (Adr_Boot, RW_Boot, Boot, Val_In)
     if (Boot='1') then 
        if (RW_Boot ='0') then 
         case (Adr_Boot) is
+--           when "11"   => Val_Out <= Val_In(7 downto 0);
+--           when "10"   => Val_Out <= Val_In(15 downto 8);
+--           when "01"   => Val_Out <= Val_In(23 downto 16);
+--           when others => Val_Out <= Val_In(31 downto 24);
            when "11"   => Val_Out <= Val_In(31 downto 24);
            when "10"   => Val_Out <= Val_In(23 downto 16);
            when "01"   => Val_Out <= Val_In(15 downto 8);
