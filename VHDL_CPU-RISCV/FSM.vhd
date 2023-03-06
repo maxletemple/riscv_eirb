@@ -75,7 +75,7 @@ component decoblock is
              sel_func_ALU_connect : out STD_LOGIC_VECTOR (2 downto 0);
              sel_PC_Mux           : out STD_LOGIC_VECTOR (1 downto 0);
              Val_connect          : in STD_LOGIC;
-             mem_rw_depth         : out std_logic_vector(1 downto 0));
+             mem_rw_depth         : out std_logic_vector(3 downto 0));
 end component;
 
 
