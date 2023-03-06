@@ -6,6 +6,3 @@ sltu x9,x5,x6
 sltu x18,x6,x5
 and x27,x5,x0
 and x28,x5,x5
-or x29,x5,x5
-or x30,x5,x0
-or x31,x0,x5

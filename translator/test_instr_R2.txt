@@ -6,4 +6,3 @@ xor x9,x0,x0
 addi x28,x0,1
 sll x29,x28,x28
 srl x30,x29,x28
-sra x31,x29,x28
