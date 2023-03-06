@@ -14,8 +14,8 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    if (argc != 3) {
-        std::cout << "Usage:  risc-translator   INPUT_FILE    OUTPUT_FILE" << std::endl;
+    if (argc != 4) {
+        std::cout << "Usage:  risc-translator   INPUT_FILE    OUTPUT_FILE type" << std::endl;
         std::cout << "-----------------------------------------------------" << std::endl;
         std::cout << "[-h|--help] - show usage of risc-translator" << std::endl;
         std::cout << "INPUT_FILE  - path of the assembly code file" << std::endl;
@@ -29,6 +29,10 @@ int main(int argc, char *argv[]) {
 
     translator *instance = new translator();
     instance -> instructionToBin(assem_file_name, "temp.txt");
-    instance ->binToInt("temp.txt", inst_file_name);
+    if (std::string(argv[3]) == "int") {
+        instance->binToInt("temp.txt", inst_file_name);
+    } else{
+        instance->binToUart("temp.txt", inst_file_name);
+    }
     return 0;
 }

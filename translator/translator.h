@@ -21,6 +21,8 @@ private:
 public:
     void instructionToBin(string in_filename, string out_filename);
     void binToInt(string in_filename, string out_filename);
+
+    void binToUart(string source, string dest);
 };
 
 #endif //PROJECT_TRANSLATOR_H

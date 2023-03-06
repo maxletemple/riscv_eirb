@@ -190,12 +190,54 @@ void translator::instructionToBin(string in_filename, string out_filename) {
 void translator::binToInt(string in_filename, string out_filename){
     ifstream in(in_filename);
     ofstream out(out_filename);
-
+    int lineCount = 0;
     string line;
     while(getline(in, line)){
-        for (int k = 0; k < 4; k++){
+        for (int k = 3; k >= 0; k--){
             out << stoi(line.substr(8*k, 8), 0, 2) << endl;
+            lineCount++;
         }
+    }
+
+    for(; lineCount < 32; lineCount++){
+        out << 0 << endl;
+    }
+
+    in.close();
+    out.close();
+}
+
+void translator::binToUart(string source, string dest) {
+    ifstream in(source);
+    ofstream out(dest, ios::binary | ios::out);
+
+    string line;
+    int byteCount = 0;
+    while(getline(in, line)){
+        for (int k = 3; k >= 0; k--){
+            int i = stoi(line.substr(8*k, 8), 0, 2);
+            out.write((char*)(&i), 1);
+            byteCount++;
+            //out << endl;
+        }
+    }
+    /*
+    while(getline(in, line)){
+        for (int k = 0; k < 4; k++){
+            linecount ++;
+            string str = line.substr(8*k, 8);
+            std::uint8_t c = 0;
+            int pow = 1;
+            for (int i = 0; i < 8; i ++){
+                c += (int) str[7 - i] * pow;
+                pow *= 2;
+            }
+            cout << (std::uint8_t) c << endl;
+            out << c << endl;
+        }
+    }*/
+    for (;byteCount < 64; byteCount ++){
+        out << '\0';
     }
     in.close();
     out.close();
