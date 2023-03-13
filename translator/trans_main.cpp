@@ -4,26 +4,6 @@
 
 int main(int argc, char *argv[]) {
 
-    if(argc == 2 && (std::string(argv[1]) == "-h" || std::string(argv[1]) == "--help")) {
-        std::cout << "Usage:  risc-translator   INPUT_FILE    OUTPUT_FILE" << std::endl;
-        std::cout << "-----------------------------------------------------" << std::endl;
-        std::cout << "[-h|--help] - show usage of risc-translator" << std::endl;
-        std::cout << "INPUT_FILE  - path of the assembly code file" << std::endl;
-        std::cout << "OUTPUT_FILE - path of the instruction code file" << std::endl;
-        std::cout << "-----------------------------------------------------" << std::endl;
-        return 0;
-    }
-
-    if (argc != 4) {
-        std::cout << "Usage:  risc-translator   INPUT_FILE    OUTPUT_FILE type" << std::endl;
-        std::cout << "-----------------------------------------------------" << std::endl;
-        std::cout << "[-h|--help] - show usage of risc-translator" << std::endl;
-        std::cout << "INPUT_FILE  - path of the assembly code file" << std::endl;
-        std::cout << "OUTPUT_FILE - path of the instruction code file" << std::endl;
-        std::cout << "-----------------------------------------------------" << std::endl;
-        return 0;
-    }
-
     string assem_file_name = std::string(argv[1]);
     string inst_file_name = std::string(argv[2]);
 

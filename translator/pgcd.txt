@@ -6,3 +6,6 @@ sub x5,x5,x6
 jal x1,8
 sub x6,x6,x5
 jal x1,-20
+sw x5,0(x0)
+add x0,x0,x0
+jal x1,-4
