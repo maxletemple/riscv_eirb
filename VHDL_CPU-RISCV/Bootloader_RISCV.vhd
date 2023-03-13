@@ -6,7 +6,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity CPU_Bootloader is
     Generic(
            Bit_Nber    : INTEGER := 32;  
-           Memory_size : INTEGER := 5   --! 2**5= 32 Values
+           Memory_size : INTEGER := 6   --! 2**5= 32 Values
            );
     Port ( Clk            : in  STD_LOGIC;
            Reset          : in  STD_LOGIC;

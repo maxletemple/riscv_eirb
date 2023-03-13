@@ -239,7 +239,7 @@ begin
                       Ena_Mem_Data <= '0';
                       RW_Mem_Data <= "0000";
                       reg_file_write <= '1';
-                      init_counter <= '1';
+                      init_counter <= '0'; -- 
                       load_plus4 <='1';
                       opcode <= Val_Inst(6 downto 0);
                       

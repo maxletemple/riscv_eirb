@@ -36,7 +36,6 @@ entity Inst_Incr is
             Bit_Nber : integer := 32
             );
     Port ( Val_Inst     : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
-           Load_plus4 : in STD_LOGIC;
            New_Val_Inst : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0)
           );
 end Inst_Incr;

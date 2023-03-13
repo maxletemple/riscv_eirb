@@ -124,6 +124,17 @@ component Mux2_1 is
            Output : out  STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0)
            );
  end component;
+ 
+ component adder is
+    Generic(
+        Bit_Nber : integer := 32
+        );
+    Port (
+        Operand_1    : in std_logic_vector(31 downto 0);
+        Operand_2    : in std_logic_vector(31 downto 0);
+        Result : out std_logic_vector(31 downto 0)
+        );
+end component;
 
 signal sig_Operand1       : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
 signal sig_Operand2       : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
@@ -132,7 +143,9 @@ signal sig_Result         : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
 signal sig_Reg_Data_Write : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
 signal sig_Imm_Operand    : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
 
-constant zero : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0):= (others =>'0');
+signal sig_AUIPC_out      : STD_LOGIC_VECTOR(31 downto 0);
+
+--constant zero : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0):= (others =>'0');
 
 begin
 
@@ -194,16 +207,25 @@ inst_Mux_Operand2 : Mux2_1
              );                
 
 -- Mux Resut ALU            
-inst_Mux_Result : Mux4_1
+inst_Mux_Result : Mux4_1 -- 00 pour l'ALU, 01 pour memoire, 10 pour PC et 11 pour l'adder
     generic map(Bit_Nber => 32)
     port map(
-                In1    => New_Adr_Inst, 
-                In2    => sig_Result, 
-                In3    => Val_Mem_Data,
-                In4    => zero,
+                In1    => sig_Result, 
+                In2    => Val_Mem_Data, 
+                In3    => New_Adr_Inst,
+                In4    => sig_AUIPC_out,
                 sel    => sel_result,
                 Output => sig_Reg_Data_Write 
              );    
-             
+     
+inst_Adder : Adder
+    generic map(
+                Bit_Nber => 32
+            )
+    port map(
+                Operand_1    => sig_Imm_Operand,
+                Operand_2    => New_Adr_Inst,
+                Result       => sig_AUIPC_out
+            );       
 
 end Behavioral;

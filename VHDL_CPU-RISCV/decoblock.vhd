@@ -189,7 +189,7 @@ begin
     when "1100111" => -- Op Jalr
                                             imm_type <= "001"; -- Type I            
                                             sel_op2 <= '1';
-                                            sel_result <= "10"; -- 00 pour l'ALU, 01 pour memoire et 10 pour PC                   
+                                            sel_result <= "10"; -- 00 pour l'ALU, 01 pour memoire, 10 pour PC et 11 pour l'Adder                  
                                             sel_PC_Mux <= "11"; -- 01 pour les branchements et jal, 10 pour mettre a 0 le pc, 11 pour jalr, 00 sinon
                                             sel_func_ALU_connect <= "000";
                                             sel_func_ALU <= "1100";
@@ -198,8 +198,8 @@ begin
     when "0110111" => -- Op Lui
                                             imm_type <= "100"; -- Type U         
                                             sel_op2 <= '1';
-                                            sel_result <= "00"; -- 00 pour l'ALU, 01 pour memoire et 10 pour PC                   
-                                            sel_PC_Mux <= "00"; -- 01 pour les branchements et jal, 10 pour mettre � 0 le pc, 11 pour jalr, 00 sinon
+                                            sel_result <= "00"; -- 00 pour l'ALU, 01 pour memoire, 10 pour PC et 11 pour l'Adder                  
+                                            sel_PC_Mux <= "00"; -- 01 pour les branchements et jal, 10 pour mettre a 0 le pc, 11 pour jalr, 00 sinon
                                             sel_func_ALU_connect <= "000";
                                             sel_func_ALU <= "1011";
                                             mem_rw_depth <= "0000";
@@ -207,7 +207,7 @@ begin
     when "0010111" => -- Op Auipc ???
                                             imm_type <= "100"; -- Type U                                                      
                                             sel_op2 <= '0';                                             
-                                            sel_result <= "00"; -- 00 pour l'ALU, 01 pour memoire et 10 pour PC                   
+                                            sel_result <= "11"; -- 00 pour l'ALU, 01 pour memoire, 10 pour PC et 11 pour l'Adder                  
                                             sel_PC_Mux <= "00"; -- 01 pour les branchements et jal, 10 pour mettre � 0 le pc, 11 pour jalr, 00 sinon
                                             sel_func_ALU_connect <= "000";
                                             sel_func_ALU <= "1011";

@@ -35,7 +35,7 @@ begin
             Val_connect <= '0';
             
         when "0010" => -- sub
-            Result <= std_logic_vector(unsigned(Operand1) + unsigned(Operand2));
+            Result <= std_logic_vector(unsigned(Operand1) - unsigned(Operand2));
             val_connect <= '0';
             
         when "1000" => -- Decalage logique à gauche <<
@@ -102,42 +102,42 @@ begin
             
             case(sel_func_ALU_connect) is
             
-            when "000" => -- beq = branch equal
+            when "001" => -- beq = branch equal
                 if(unsigned(Operand1) = unsigned(Operand2)) then
                     val_connect <= '1';
                 else 
                     val_connect<= '0';
                 end if;
                 
-            when "001" => -- bne = branch not equal
+            when "010" => -- bne = branch not equal
                 if(unsigned(Operand1) /= unsigned(Operand2)) then
                     val_connect <= '1';
                 else 
                     val_connect<= '0';
                 end if;
             
-            when "100" => -- blt = branch less than signed
+            when "011" => -- blt = branch less than signed
                 if(signed(Operand1) < signed(Operand2)) then
                     val_connect <= '1';
                 else 
                     val_connect<= '0';
                 end if;
             
-            when "101" => -- bge = branch greathor or equal signed
+            when "100" => -- bge = branch greathor or equal signed
                 if(signed(Operand1) >= signed(Operand2)) then
                     val_connect <= '1';
                 else 
                     val_connect<= '0';
                 end if;
             
-            when "110" => -- bltu = branch less than unsigned
+            when "101" => -- bltu = branch less than unsigned
                 if(unsigned(Operand1) < unsigned(Operand2)) then
                     val_connect <= '1';
                 else 
                     val_connect<= '0';
                 end if;
             
-            when "111" => -- bgeu = branch greater or equal unsigned
+            when "110" => -- bgeu = branch greater or equal unsigned
                 if(unsigned(Operand1) >= unsigned(Operand2)) then
                     val_connect <= '1';
                 else 
@@ -148,11 +148,14 @@ begin
         Result <= (others => '0');
             
             end case;
-                if(unsigned(Operand1) < unsigned(Operand2)) then
-                    val_connect <= '1';
-                else 
-                    val_connect<= '0';
-                end if;
+
+-- c koi ca ?
+--                if(unsigned(Operand1) < unsigned(Operand2)) then
+--                    val_connect <= '1';
+--                else 
+--                    val_connect<= '0';
+--                end if;
+
             Result <= (others => '0');
             
         when others => -- "1101" to "1111"

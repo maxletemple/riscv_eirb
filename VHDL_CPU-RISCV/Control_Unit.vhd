@@ -107,7 +107,6 @@ component Inst_Incr is
             Bit_Nber : integer := 32
             );
     Port ( Val_Inst     : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
-           Load_plus4   : in STD_LOGIC;
            New_Val_Inst : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0)
            );
 end component;
@@ -174,7 +173,7 @@ inst_FSM : FSM
            ); 
   
  -- Instruction Register        
-inst_Inst_Register: Inst_Register
+PC : Inst_Register
     generic map(Bit_Nber => Bit_Nber)
     port map(
               Clk          => Clk, 
@@ -188,11 +187,10 @@ inst_Inst_Register: Inst_Register
  Adr_Inst <= sig_Adr_Inst;
  
  -- Instruction incr by 4       
-inst_Inst_Incr : Inst_Incr
+PC_plus_4 : Inst_Incr
     generic map(Bit_Nber => Bit_Nber)
     port map(
               Val_Inst     => sig_Adr_Inst,
-              Load_plus4   => sig_Load_plus4,
               New_Val_Inst => sig_New_Adr_Inst
             );
             
