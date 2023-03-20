@@ -50,10 +50,10 @@ Process(sel,In4,In3,In2,In1)
 
    Begin
     case sel is
-          when "00" =>   Output <= In1;
-          when "01" =>   Output <= In2;
-          when "10" =>   Output <= In3;
-          when "11" =>   Output <= In4;
+          when "00"   => Output <= In1;
+          when "01"   => Output <= In2;
+          when "10"   => Output <= In3;
+          when others => Output <= In4;
     end case;    
 end Process;
 

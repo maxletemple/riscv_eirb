@@ -85,7 +85,8 @@ component Mem_Unit is
            Val_Inst         : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
            Jalr_Adr         : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0); 
            Jr_Adr           : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0); 
-           Val_Imm_Operand  : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
+           --Val_Imm_Operand  : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
+           br_jal_adr       : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
            Adr_Inst         : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            New_Adr_Inst     : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            Ena_Mem_Inst     : out STD_LOGIC;
@@ -112,6 +113,7 @@ component Mem_Unit is
            Val_Mem_Inst     : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            Val_Mem_Data     : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            New_Adr_Inst     : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
+           Adr_Inst     : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            
            sel_func_ALU         : in STD_LOGIC_VECTOR (3 downto 0);
            reg_file_write       : in STD_LOGIC;
@@ -125,14 +127,14 @@ component Mem_Unit is
            Val_UT_Data      : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            Val_Imm_Operand  : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            Jalr_Adr         : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
-           Jr_Adr           : out STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0)
+           Jr_Adr           : out STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
+           br_jal_adr       : out STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0)
          );
  end component;
  
  signal   sig_Ena_Mem_Inst  : STD_LOGIC; 
  constant sig_RW_Mem_Inst   : STD_LOGIC_VECTOR (3 downto 0):="0000";
  signal   sig_Adr_Mem_Inst  : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
- constant sig_Val_In_Inst   : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0):= (others => '0');
  signal   sig_Val_Out_Inst  : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
  
  signal   sig_Ena_Mem_Data  : STD_LOGIC; 
@@ -151,7 +153,10 @@ component Mem_Unit is
  signal   sig_sel_result           : STD_LOGIC_VECTOR (1 downto 0);
  signal   sig_sel_func_ALU_connect : STD_LOGIC_VECTOR (2 downto 0);
  signal   sig_Val_connect          : STD_LOGIC;
- signal   sig_New_Adr_Inst         : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0); 
+ signal   sig_New_Adr_Inst         : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
+ signal   sig_Adr_Inst             : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0); 
+
+ signal   sig_br_jal_adr           : STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0); 
 
 begin
 
@@ -169,9 +174,9 @@ Inst_Mem_Unit_Inst : Mem_Unit
               RW_Boot      => Inst_RW_Boot, 
               RW_CPU       => sig_RW_Mem_Inst,
               Adr_Boot     => Adr_Inst_boot,
-              Adr_CPU      => sig_Adr_Mem_Inst,
+              Adr_CPU      => sig_Adr_Inst,
               Val_In_boot  => Val_Inst_In_boot,
-              Val_In_CPU   => sig_Val_In_Inst,
+              Val_In_CPU   => (others => '0'),       --sig_Val_In_Inst,
               Val_Out_CPU  => sig_Val_Out_Inst, 
               Val_Out_Boot => Val_Inst_Out_Boot
              );                       
@@ -210,8 +215,9 @@ Inst_Control_Unit : Control_Unit
               Val_Inst          => sig_Val_Out_Inst,
               Jalr_Adr          => sig_Jalr_Adr,
               Jr_Adr            => sig_Jr_Adr,
-              Val_Imm_Operand   => sig_Val_Imm_Operand,
-              Adr_Inst          => sig_Adr_Mem_Inst,
+             -- Val_Imm_Operand   => sig_Val_Imm_Operand,
+              br_jal_adr        => sig_br_jal_adr,
+              Adr_Inst          => sig_Adr_Inst,
               New_Adr_Inst      => sig_New_Adr_Inst,
               Ena_Mem_Inst      => sig_Ena_Mem_Inst,
               Ena_Mem_Data      => sig_Ena_Mem_Data,
@@ -238,7 +244,7 @@ Inst_Processing_Unit : Processing_Unit
               Val_Mem_Inst      => sig_Val_Out_Inst,
               Val_Mem_Data      => sig_Val_Out_Data,
               New_Adr_Inst      => sig_New_Adr_Inst,
-              
+              Adr_Inst          => sig_Adr_Inst,
               sel_func_ALU         => sig_sel_func_ALU,
               reg_file_write       => sig_reg_file_write,
               imm_type             => sig_imm_type,
@@ -251,7 +257,8 @@ Inst_Processing_Unit : Processing_Unit
               Val_UT_Data       => sig_Val_In_Data,  
               Val_Imm_Operand   => sig_Val_Imm_Operand,        
               Jalr_Adr          => sig_Jalr_Adr,
-              Jr_Adr            => sig_Jr_Adr
+              Jr_Adr            => sig_Jr_Adr,
+              br_jal_adr        => sig_br_jal_adr
              );                
 
 end Behavioral;

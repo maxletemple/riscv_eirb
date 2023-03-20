@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -59,8 +59,9 @@ CASE imm_type IS
                   
     WHEN "011" =>  S_imm_Operand<=  Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24) & Imm_Val(0)& Imm_Val(23 downto 18) & Imm_Val(4 downto 1) & '0'; -- b_Type 
                   
-    WHEN "100" =>  S_imm_Operand<=  Imm_Val(24 downto 5) &  Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24); -- u_Type
-                 
+    --WHEN "100" =>  S_imm_Operand<=  Imm_Val(24 downto 5) &  Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24); -- u_Type
+    WHEN "100" =>  S_imm_Operand<=  Imm_Val(24 downto 5) & std_logic_vector(to_unsigned(0,12)); -- u_Type
+             
                   
     WHEN "101" =>   S_imm_Operand<=   Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(24)& Imm_Val(12 downto 5)& Imm_Val(13) & Imm_Val(23 downto 14)& '0';-- j_Type
                    

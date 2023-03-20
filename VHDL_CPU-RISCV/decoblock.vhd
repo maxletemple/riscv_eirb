@@ -204,13 +204,13 @@ begin
                                             sel_func_ALU <= "1011";
                                             mem_rw_depth <= "0000";
                                             
-    when "0010111" => -- Op Auipc ???
+    when "0010111" => -- Op Auipc
                                             imm_type <= "100"; -- Type U                                                      
                                             sel_op2 <= '0';                                             
                                             sel_result <= "11"; -- 00 pour l'ALU, 01 pour memoire, 10 pour PC et 11 pour l'Adder                  
-                                            sel_PC_Mux <= "00"; -- 01 pour les branchements et jal, 10 pour mettre � 0 le pc, 11 pour jalr, 00 sinon
+                                            sel_PC_Mux <= "00"; -- 01 pour les branchements et jal, 10 pour mettre a 0 le pc, 11 pour jalr, 00 sinon
                                             sel_func_ALU_connect <= "000";
-                                            sel_func_ALU <= "1011";
+                                            sel_func_ALU <= "1011"; -- Mais on s'en cogne de ca en vrai nan ???? G pas raison ?
                                             mem_rw_depth <= "0000";                                                                                                                       
     when others =>
                                             imm_type <= "000";

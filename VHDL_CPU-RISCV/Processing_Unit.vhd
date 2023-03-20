@@ -41,6 +41,7 @@ entity Processing_Unit is
            Val_Mem_Inst     : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            Val_Mem_Data     : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            New_Adr_Inst     : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
+           Adr_Inst         : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            
            sel_func_ALU         : in STD_LOGIC_VECTOR (3 downto 0);
            reg_file_write       : in STD_LOGIC;
@@ -54,7 +55,8 @@ entity Processing_Unit is
            Val_UT_Data      : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            Val_Imm_Operand  : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            Jalr_Adr         : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
-           Jr_Adr           : out STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0)
+           Jr_Adr           : out STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
+           br_jal_adr       : out STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0)
          );
 end Processing_Unit;
 
@@ -224,8 +226,11 @@ inst_Adder : Adder
             )
     port map(
                 Operand_1    => sig_Imm_Operand,
-                Operand_2    => New_Adr_Inst,
+                Operand_2    => Adr_Inst,
                 Result       => sig_AUIPC_out
-            );       
+            );
+            
+
+    br_jal_adr <= sig_AUIPC_out;     
 
 end Behavioral;

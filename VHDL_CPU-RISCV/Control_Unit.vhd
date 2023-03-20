@@ -42,7 +42,8 @@ entity Control_Unit is
            Val_Inst         : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
            Jalr_Adr         : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0); 
            Jr_Adr           : in STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0); 
-           Val_Imm_Operand  : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);           
+           
+           br_jal_adr       : in STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);          
            Adr_Inst         : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            New_Adr_Inst     : out STD_LOGIC_VECTOR ((Bit_Nber-1) downto 0);
            Ena_Mem_Inst     : out STD_LOGIC;
@@ -124,15 +125,15 @@ component Mux4_1 is
            );
  end component;
  
- component Adder is
-    Generic(
-           Bit_Nber : integer := Bit_Nber
-           );
-    Port (  Operand_1 : in  STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
-            Operand_2 : in  STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
-            Result    : out STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0)
-          );
- end component;
+-- component Adder is
+--    Generic(
+--           Bit_Nber : integer := Bit_Nber
+--           );
+--    Port (  Operand_1 : in  STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
+--            Operand_2 : in  STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0);
+--            Result    : out STD_LOGIC_VECTOR  ((Bit_Nber-1) downto 0)
+--          );
+-- end component;
  
  signal sig_init_counter : STD_LOGIC;
  signal sig_Load_plus4   : STD_LOGIC;
@@ -201,21 +202,21 @@ inst_Mux_Register : Mux4_1
     generic map(Bit_Nber => 32)
     port map(
                 In1    => sig_New_Adr_Inst, 
-                In2    => sig_Val_Imm_adr,
+                In2    => br_jal_adr,
                 In3    => Jr_Adr,
                 In4    => Jalr_Adr,
                 sel    => sig_sel_PC_Mux,
                 Output => sig_Val_Counter
              );      
              
-  -- Adder Operator       
-inst_Adder: Adder
-    generic map(Bit_Nber => Bit_Nber)
-    port map(
-              Operand_1 => sig_Adr_Inst,
-              Operand_2 => Val_Imm_Operand,
-              Result    => sig_Val_Imm_adr
-            );            
+--  -- Adder Operator       
+--inst_Adder: Adder
+--    generic map(Bit_Nber => Bit_Nber)
+--    port map(
+--              Operand_1 => sig_Adr_Inst,
+--              Operand_2 => Val_Imm_Operand,
+--              Result    => sig_Val_Imm_adr
+--            );            
              
                     
 

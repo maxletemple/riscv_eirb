@@ -90,12 +90,12 @@ begin
             end if;
         val_connect <= '0';
         
-        when "1011" => -- lui = load immediate    
-            Result <= Operand1(19 downto 0) & std_logic_vector(to_unsigned(0,12));
+        when "1011" => -- lui = load upper immediate
+            Result <= Operand2; -- Operand2(19 downto 0) & std_logic_vector(to_unsigned(0,12));
             val_connect <= '0';
             
-        when "1100" =>
-            Result <= std_logic_vector(unsigned(Operand1) + unsigned(Operand2)) and std_logic_vector(to_signed(-2,Bit_Nber));
+        when "1100" => -- Jalr
+            Result <= std_logic_vector(unsigned(Operand1) + unsigned(Operand2)) and std_logic_vector(to_signed(-2,Bit_Nber)); -- Masquage du dernier bit
             val_connect <= '0';
             
         when "0000" => -- a<b?1:0 signed
