@@ -236,7 +236,7 @@ void translator::binToUart(string source, string dest) {
             out << c << endl;
         }
     }*/
-    for (;byteCount < 64; byteCount ++){
+    for (;byteCount < 128; byteCount ++){
         out << '\0';
     }
     in.close();
