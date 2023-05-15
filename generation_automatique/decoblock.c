@@ -322,7 +322,7 @@ if (count_type_L != 0)
   fprintf(fichier2,    "when \"0000011\" => -- Op load"
                   "        imm_type <= \"001\"; -- Type I\n"
                   "        sel_op2 <= '1';\n"
-                  "        sel_result <= \"01\"; -- 00 pour l'ALU, 01 pour mémoire et 10 pour PC\n"
+                  "        sel_result <= \"01\"; -- 00 pour l'ALU, 01 pour mÃ©moire et 10 pour PC\n"
                   "        sel_PC_Mux <= \"00\"; -- 01 pour les branchements, 10 pour jal, 00 sinon\n"
                   "        sel_func_ALU_connect <= \"000\";\n"
                   "        sel_func_ALU <= \"0001\";\n"
@@ -380,7 +380,7 @@ if (count_type_S != 0)
       if ((strcmp(instructions[i].nom, "SH")==0) && (strcmp(instructions[i].autorisation, "OUI") == 0)){
          fprintf(fichier2, "        when \"001\" => -- sh\n"
                   "            sel_func_ALU <= \"0001\";\n"
-                  "            mem_rw_depth <= \"0010\"; -- 10\n");
+                  "            mem_rw_depth <= \"0011\"; -- 10\n");
       }
       if ((strcmp(instructions[i].nom, "SW")==0) && (strcmp(instructions[i].autorisation, "OUI") == 0)){
          fprintf(fichier2, "        when \"010\" => -- sw\n"
@@ -400,7 +400,7 @@ if (count_type_B != 0)
     fprintf(fichier2, "        when \"1100011\" =>\n"
                   "            imm_type <= \"011\"; -- Type B\n"
                   "            sel_op2 <= '0';\n"
-                  "            sel_result <= \"10\"; -- 00 pour l'ALU, 01 pour mémoire et 10 pour PC\n"
+                  "            sel_result <= \"10\"; -- 00 pour l'ALU, 01 pour mÃ©moire et 10 pour PC\n"
                   "            sel_func_ALU <= \"0000\";\n"
                   "            mem_rw_depth <= \"0000\";\n"
                   "            case funct3 is");
