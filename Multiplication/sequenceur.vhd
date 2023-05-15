@@ -113,7 +113,7 @@ begin
           elsif(opcode="1100111")then PC_futur<="01000";
           elsif(opcode="0110111")then PC_futur<="01001";
           elsif(opcode="0010111")then PC_futur<="01010";
-          elsif(opcode="1111111")then PC_futur<="11111"; 
+          elsif(opcode="1111111")then PC_futur<="11111";
           else PC_futur <= "01011";
           end if;
       when"00101" =>             if(opcode="0000011") then PC_futur<="01100";
@@ -131,8 +131,8 @@ begin
              PC_futur<="00001";       when "01010"  =>
              PC_futur<="00001";              when "01011"  =>
                    PC_futur<="00001";
-              when "11111"  =>
-                                            PC_futur<="00001";
+                            when "11111"  =>
+                              PC_futur<="00001";
              when others => null;
   end case;
   end process;process(PC, Val_Inst, s_mem_rw_depth)
@@ -258,13 +258,13 @@ when "01110" =>
   load_plus4<=sortie_6(14);
   opcode<=Val_Inst(6 downto 0);
 when "11111"  => 
-    Ena_Mem_INST<='0';
-    Ena_Mem_DATA<='0';
-    rw_mem_data<="0000";
-    reg_file_write<='1';
-    init_counter<='0';
-    load_plus4<='0';
-    opcode<=Val_Inst(6 downto 0);
+  Ena_Mem_INST<=sortie_1(3);
+Ena_Mem_DATA<=sortie_2(3);
+rw_mem_data<="0000";
+reg_file_write<=sortie_4(3);
+init_counter<=sortie_5(3);
+load_plus4<=sortie_6(3);
+opcode<=Val_Inst(6 downto 0);
 when others => null;
 end case;
 end process;
