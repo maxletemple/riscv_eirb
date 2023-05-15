@@ -36,11 +36,31 @@ begin
             -- calcul du signal pour chaque instruction
             case funct3 is
     when "000" =>
-        if (funct7 = "0000000") then
-            sel_func_ALU <= "0001"; -- add
+        if (funct7 = "0100000") then
+            sel_func_ALU <= "0010"; -- sub
+    elsif (funct7 = "0000000") then
+        sel_func_ALU <= "0001"; -- add
     else
         sel_func_ALU <= "0000"; -- nop
     end if;
+    when "001" =>
+       sel_func_ALU <= "1000"; -- sll
+    when "101" =>
+        if (funct7 = "0100000") then
+            sel_func_ALU <= "1010"; -- sra
+        elsif (funct7 = "0000000") then
+            sel_func_ALU <= "1001"; -- srl
+        else
+            sel_func_ALU <= "0000"; -- nop
+        end if;
+    when "100" =>
+      sel_func_ALU <= "0111"; -- xor
+when "110" => sel_func_ALU <= "0110"; -- or
+when "111" => sel_func_ALU <= "0101"; -- and
+    when "010" =>
+       sel_func_ALU <= "0011"; -- slt
+     when "011" =>
+     sel_func_ALU <= "0100"; -- sltu
     when others => sel_func_ALU <= "0000";
 end case;    when "0010011" => -- Op reg-imm
         -- signaux communs a chaque instruction reg-imm
@@ -55,12 +75,32 @@ end case;    when "0010011" => -- Op reg-imm
         case funct3 is
     when "000" => -- addi
         sel_func_ALU <= "0001";
+    when "001" => -- slli
+        sel_func_ALU <= "1000";
+    when "101" =>
+        if (funct7 = "0000000") then -- srli
+            sel_func_ALU <= "1001";
+        elsif (funct7 = "0100000") then -- srai
+            sel_func_ALU <= "1010";
+        else
+            sel_func_ALU <= "0000"; -- nop
+        end if;
+    when "100" => -- xori
+        sel_func_ALU <= "0111";
+    when "110" => -- ori
+        sel_func_ALU <= "0110";
+    when "111" => -- andi
+        sel_func_ALU <= "0101";
+    when "010" => -- slti
+        sel_func_ALU <= "0011";
+    when "011" => -- sltiu
+        sel_func_ALU <= "0100";
     when others =>
         sel_func_ALU <= "0000";
     end case;
 when "0000011" => -- Op load        imm_type <= "001"; -- Type I
         sel_op2 <= '1';
-        sel_result <= "01"; -- 00 pour l'ALU, 01 pour mémoire et 10 pour PC
+        sel_result <= "01"; -- 00 pour l'ALU, 01 pour mÃ©moire et 10 pour PC
         sel_PC_Mux <= "00"; -- 01 pour les branchements, 10 pour jal, 00 sinon
         sel_func_ALU_connect <= "000";
         sel_func_ALU <= "0001";
@@ -69,6 +109,18 @@ when "0000011" => -- Op load        imm_type <= "001"; -- Type I
     when "000" =>
         sel_func_ALU <= "0001";
         mem_rw_depth <= "0001";
+    when "001" =>
+        sel_func_ALU <= "0001";
+        mem_rw_depth <= "0011";
+    when "010" =>
+        sel_func_ALU <= "0001";
+        mem_rw_depth <= "1111";
+    when "100" =>
+        sel_func_ALU <= "0001";
+        mem_rw_depth <= "0001";
+    when "101" =>
+        sel_func_ALU <= "0001";
+        mem_rw_depth <= "0011";
     when others =>
         sel_func_ALU <= "0000";
         mem_rw_depth <= "0000";
@@ -84,6 +136,12 @@ end case;
         when "000" => -- sb
             sel_func_ALU <= "0001";
             mem_rw_depth <= "0001"; -- 01
+        when "001" => -- sh
+            sel_func_ALU <= "0001";
+            mem_rw_depth <= "0011"; -- 10
+        when "010" => -- sw
+            sel_func_ALU <= "0001";
+            mem_rw_depth <= "1111"; -- 11
     when others =>
         sel_func_ALU <= "0000";
         mem_rw_depth <= "0001";
@@ -91,7 +149,7 @@ end case;
         when "1100011" =>
             imm_type <= "011"; -- Type B
             sel_op2 <= '0';
-            sel_result <= "10"; -- 00 pour l'ALU, 01 pour mémoire et 10 pour PC
+            sel_result <= "10"; -- 00 pour l'ALU, 01 pour mÃ©moire et 10 pour PC
             sel_func_ALU <= "0000";
             mem_rw_depth <= "0000";
             case funct3 is        when "000" => -- beq
@@ -148,7 +206,7 @@ end case;
             sel_func_ALU_connect <= "000";
             sel_func_ALU <= "1011";
             mem_rw_depth <= "0000";
-   when"1111111"=>
+when"1111111"=>
             imm_type<="000";
             sel_op2<='0';
             sel_result<="00";
