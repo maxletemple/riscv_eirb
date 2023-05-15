@@ -116,6 +116,8 @@ begin
 --            --Result <= std_logic_vector(resize(unsigned(operand1(Bit_Nber-1 downto to_integer(unsigned(operand2)))), 32 ) * (2 ** (unsigned(operand2))));
 --            Result <= std_logic_vector(shift_left(unsigned(operand1), index));
 --            val_connect <= '0';
+
+            val_connect <= '0';
             
         when "1001" => -- Décalage logique à droite >>u ?????????????????
 --            index := to_integer(unsigned(Operand2));
@@ -191,6 +193,8 @@ begin
                     Result <= (others => '0');
                 end case;
         
+            
+            val_connect <= '0';
         
         when "1010" => -- D?calage arithm?tique ? droite >>s
         

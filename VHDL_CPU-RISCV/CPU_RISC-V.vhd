@@ -33,7 +33,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity CPU_RISCV is
     Generic(
            Bit_Nber    : INTEGER    := 32;
-           Memory_size : INTEGER    := 6 -- 2**8 values
+           Memory_size : INTEGER    := 7 -- 2**7 = 128 values
            );
     Port ( Clk               : in STD_LOGIC;
            Reset             : in STD_LOGIC;
@@ -57,7 +57,7 @@ architecture Behavioral of CPU_RISCV is
 component Mem_Unit is
     Generic(
            Bit_Nber    : INTEGER := Bit_Nber;    -- word size
-           Memory_size : INTEGER := Memory_size  -- 2**8 values
+           Memory_size : INTEGER := Memory_size
            );
     Port ( Clk         : in STD_LOGIC;
            --CE        : in STD_LOGIC;
@@ -200,7 +200,28 @@ Inst_Mem_Unit_Data : Mem_Unit
               Val_In_CPU   => sig_Val_In_Data,
               Val_Out_CPU  => sig_Val_Out_Data, 
               Val_Out_Boot => Val_Data_Out_Boot
-             );                               
+             );    
+             
+ -- Peripherique UART
+--            Inst_Mem_Unit_Data : uart
+--                generic map(
+--                              Bit_Nber    => Bit_Nber,   -- 
+--                              Memory_size => Memory_size --2**Memory_size values
+--                            )
+--                port map(
+--                          Clk          => Clk,
+--                          --CE         => CE,
+--                          Boot         => Data_Boot,         
+--                          Ena_CPU      => sig_Ena_Mem_Data,
+--                          RW_Boot      => Data_RW_Boot, 
+--                          RW_CPU       => sig_RW_Mem_Data,
+--                          Adr_Boot     => Adr_Data_boot,
+--                          Adr_CPU      => sig_Adr_Mem_Data,
+--                          Val_In_boot  => Val_Data_In_boot,
+--                          Val_In_CPU   => sig_Val_In_Data,
+--                          Val_Out_CPU  => sig_Val_Out_Data, 
+--                          Val_Out_Boot => Val_Data_Out_Boot
+--                         );                              
              
 ----Control Unit
 Inst_Control_Unit : Control_Unit

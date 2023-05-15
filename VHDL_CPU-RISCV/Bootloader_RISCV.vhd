@@ -5,10 +5,12 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity CPU_Bootloader is
     Generic(
-           Bit_Nber    : INTEGER := 32;  
-           Memory_size : INTEGER := 6   --! 2**5= 32 Values
-           );
-    Port ( Clk            : in  STD_LOGIC;
+       Bit_Nber              : INTEGER := 32;  
+       Memory_size           : INTEGER := 10;   --! 2**5= 32 Values
+       UART_recv_FIFO_Size   : INTEGER := 128;   
+       UART_recv_FIFO_Almost : INTEGER := 64  
+       );
+    Port ( Clk_100        : in  STD_LOGIC;
            Reset          : in  STD_LOGIC;
            CE             : in  STD_LOGIC;
            Scan_Mem       : in  STD_LOGIC; --! Memory ready
@@ -16,7 +18,7 @@ entity CPU_Bootloader is
            Tx             : out STD_LOGIC;
            --AN           : out STD_LOGIC_VECTOR (7 downto 0);
           --Sevenseg      : out STD_LOGIC_VECTOR (7 downto 0);
-           LED               : out STD_LOGIC_VECTOR (3 downto 0)
+           LED            : out STD_LOGIC_VECTOR (3 downto 0)
          );
 end CPU_Bootloader;
 
@@ -46,9 +48,11 @@ end component;
 
 component boot_loader is
     Generic(
-           Bit_Nber    : INTEGER := Bit_Nber;
-           Memory_size : INTEGER := Memory_size
-           );
+               Bit_Nber              : INTEGER := 32 ;
+               Memory_size           : INTEGER := 6 ;   --! 2**5= 32 Values
+               UART_recv_FIFO_Size   : INTEGER := 128;   
+               UART_recv_FIFO_Almost : INTEGER := 64  
+          );
     Port (  rst         : in  std_logic;
             clk         : in  std_logic;
             ce          : in  std_logic;
@@ -62,6 +66,14 @@ component boot_loader is
             ram_in      : out std_logic_vector((8-1) downto 0));
 end component;
 
+--component clk_wiz_0 is
+--     Port ( 
+--     clk_in1  : in  std_logic;
+--     clk_out1 : out  std_logic
+--     );
+--     end component;
+
+signal clk                    : std_logic;
 signal sig_Boot               : std_logic;
 signal sig_Inst_Boot          : std_logic;
 signal sig_Data_Boot          : std_logic;
@@ -81,6 +93,12 @@ begin
 
 --sig_Adr_Inst_boot_32((Memory_size-1) downto 0) <= sig_Adr_boot;--((Memory_size-1) downto 0);
 --sig_Adr_Data_boot_32((Memory_size-1) downto 0) <= sig_Adr_boot;--((Memory_size-1) downto 0);
+
+--horloge : clk_wiz_0
+--     port map(
+--     clk_in1  => clk_100,
+--     clk_out1 => clk
+--     );
 
 Boot_Demux : Process(sig_Boot, sig_Adr_boot)
   Begin
@@ -128,10 +146,12 @@ CPU_Instance : CPU_RISCV
      
 
 BL_Instance : boot_loader 
-        generic map( Bit_Nber    => Bit_Nber,   -- 
-                     Memory_size => (Memory_size+1)
-                    )
-        port map(  clk         => Clk,
+        generic map( Bit_Nber            => Bit_Nber,   -- 
+                     Memory_size         => (Memory_size+1),
+                     UART_recv_FIFO_Size =>  UART_recv_FIFO_Size,
+                     UART_recv_FIFO_Almost =>  UART_recv_FIFO_Almost
+                   )
+        port map(  clk         => Clk_100,
                    rst         => Reset,
                    ce          => CE,
                    rx          => rx,
@@ -147,6 +167,8 @@ BL_Instance : boot_loader
   LED(0) <= Reset;
   LED(1) <= CE;    
   LED(2) <= Rx;
-  LED(3) <= Scan_Mem;                        
+  LED(3) <= Scan_Mem;
+  
+  clk <= clk_100;                     
                  
 end Behavioral;

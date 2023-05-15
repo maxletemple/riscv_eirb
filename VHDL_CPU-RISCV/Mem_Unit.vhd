@@ -47,7 +47,7 @@ use work.ram_pkg.all;
 entity Mem_Unit is
     Generic(
            Bit_Nber     : INTEGER := 32; -- word size
-           Memory_size  : INTEGER := 6   -- 2**6 values
+           Memory_size  : INTEGER -- := 6   -- 2**6 values
            );
     Port ( Clk          : in STD_LOGIC;
            --CE         : in STD_LOGIC;
