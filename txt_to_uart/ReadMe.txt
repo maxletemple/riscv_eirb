@@ -1,0 +1,3 @@
+Ce script permet de générer un fichier UART à partir d'un fichier texte contenant la valeur des octets correspondant aux instructions souhaitées en décimales.
+Il génére aussi un fichier contenant ces valeurs décimales converties en hexadécimales. Le fichier UART généré est compatible avec Tera Term et Hexed.it. 
+Il ne faut pas oublier de modifier le nom du fichier d'entrée dans le script selon les besoins de l'utilisateur.
